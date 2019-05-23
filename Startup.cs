@@ -10,14 +10,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using DotnetAndDocker.Attributes;
 
 namespace DotnetAndDocker
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
+            var configurationBuilder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", false, true);
+ 
+            Configuration = configurationBuilder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +30,8 @@ namespace DotnetAndDocker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.Configure<AppConfig>(Configuration);
+            services.AddScoped<AuthenticationFilterAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
