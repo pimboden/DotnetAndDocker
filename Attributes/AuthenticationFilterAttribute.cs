@@ -1,16 +1,20 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Filters;
+using DotnetAndDocker.Exceptions;
+using System.Net;
+
 namespace DotnetAndDocker.Attributes
-{    public class AuthenticationFilterAttribute : ActionFilterAttribute
+{
+    public class AuthenticationFilterAttribute : ActionFilterAttribute
     {
-        public override void OnActionExecuting(ActionExecutingContext ctx)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            string authKey = ctx.HttpContext.Request
+            string authKey = context.HttpContext.Request
                     .Headers["Authorization"].SingleOrDefault();
- 
+
             if (string.IsNullOrWhiteSpace(authKey))
-                throw new Exception();
+                throw new HttpException(HttpStatusCode.Unauthorized);
         }
     }
 }

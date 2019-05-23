@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DotnetAndDocker.Attributes;
+using DotnetAndDocker.Middleware;
 
 namespace DotnetAndDocker
 {
@@ -48,6 +49,7 @@ namespace DotnetAndDocker
             }
 
             app.UseHttpsRedirection();
+            app.UseMiddleware<HttpExceptionMiddleware>();
             app.UseMvc();
         }
     }
