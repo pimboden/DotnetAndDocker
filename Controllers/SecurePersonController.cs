@@ -8,10 +8,17 @@ namespace DotnetAndDocker.Controllers
     [ServiceFilter(typeof(AuthenticationFilterAttribute))]
     public class SecurePersonController : Controller
     {
+        private readonly IPersonRepository _personRepository;
+ 
+        public SecurePersonController(IPersonRepository personRepository)
+        {
+            _personRepository = personRepository;
+        }
+
         [HttpGet("secure/person/all")]
         public List<Person> GetPersons()
         {
-            return PersonRepository.GetAll();
+            return _personRepository.GetAll();
         }
     }
 }
