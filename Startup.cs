@@ -21,7 +21,7 @@ namespace DotnetAndDocker
         public Startup()
         {
             var configurationBuilder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", false, true);
+                .AddJsonFile("appsettings.json", false, true).AddEnvironmentVariables();
 
             Configuration = configurationBuilder.Build();
         }
