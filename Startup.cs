@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using DotnetAndDocker.Attributes;
 using DotnetAndDocker.Middleware;
+using DotnetAndDocker.Repositories;
 
 namespace DotnetAndDocker
 {
@@ -21,7 +22,7 @@ namespace DotnetAndDocker
         {
             var configurationBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", false, true);
- 
+
             Configuration = configurationBuilder.Build();
         }
 
@@ -33,6 +34,7 @@ namespace DotnetAndDocker
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.Configure<AppConfig>(Configuration);
             services.AddScoped<AuthenticationFilterAttribute>();
+            services.AddSingleton<IPersonRepository, PersonRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

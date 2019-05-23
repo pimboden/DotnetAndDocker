@@ -4,21 +4,21 @@ using DotnetAndDocker.Models;
 
 namespace DotnetAndDocker.Repositories
 {
-    public class PersonRepository
+        public class PersonRepository : IPersonRepository
     {
-                private static Dictionary<int, Person> PERSONS 
-                                = new Dictionary<int, Person>();
+        private Dictionary<int, Person> _persons 
+                        = new Dictionary<int, Person>();
  
-        static PersonRepository()
+        public PersonRepository()
         {
-            PERSONS.Add(1, new Person
+            _persons .Add(1, new Person
             {
                 Id = 1,
                 FirstName = "FN1",
                 LastName = "LN1",
                 Email = "email1@email.na"
             });
-            PERSONS.Add(2, new Person
+            _persons .Add(2, new Person
             {
                 Id = 2,
                 FirstName = "FN2",
@@ -27,42 +27,41 @@ namespace DotnetAndDocker.Repositories
             });
         }
  
-        public static Person GetById(int id)
+        public Person GetById(int id)
         {
-            return PERSONS[id];
+            return _persons[id];
         }
  
-        public static List<Person> GetAll()
+        public List<Person> GetAll()
         {
-            return PERSONS.Values.ToList();
+            return _persons.Values.ToList();
         }
  
-        public static int GetCount()
+        public int GetCount()
         {
-            return PERSONS.Count();
+            return _persons.Count();
         }
  
-        public static void Remove()
+        public void Remove()
         {
-            if (PERSONS.Keys.Any())
+            if (_persons.Keys.Any())
             {
-                PERSONS.Remove(PERSONS.Keys.Last());
+                _persons.Remove(_persons.Keys.Last());
             }
         }
  
-        public static string Save(Person person)
+        public string Save(Person person)
         {
-            var result = "";
-            if (PERSONS.ContainsKey(person.Id))
+            if (_persons.ContainsKey(person.Id))
             {
-                result = "Updated Person with id=" + person.Id;
+                _persons[person.Id] = person;
+                return "Updated Person with id=" + person.Id;
             }
             else
             {
-                result = "Added Person with id=" + person.Id;
+                _persons.Add(person.Id, person);
+                return "Added Person with id=" + person.Id;
             }
-            PERSONS.Add(person.Id, person);
-            return result;
         }
     }
 }
