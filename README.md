@@ -7,5 +7,5 @@ dotnet publish --configuration=Release -o pub
 ##Compile
 docker build . -t dotnet-rest
 ##Run
-docker run -e Version1.1 -p:9000:5080 dotnet-rest
+docker run -e Version=1.1 -p:9000:5080 dotnet-rest
 
